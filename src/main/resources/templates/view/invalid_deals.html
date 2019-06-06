@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+ <html xmlns="http://www.w3.org/1999/xhtml" 
+    xmlns:th="http://www.thymeleaf.org" 
+    xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<title>FX DEALS</title>
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.css">
+  
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
+
+<!-- - -->
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<link type="text/css" rel="stylesheet" th:href="@{https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css}" />
+<link type="text/css" rel="stylesheet" th:href="@{https://cdn.datatables.net/1.10.16/css/dataTables.bootstrap.min.css}" />
+<script type="text/javascript" src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/1.10.16/js/dataTables.bootstrap.min.js"></script>
+</head>
+<body>
+   <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+      <h1>File upload</h1>
+    <form action="" th:action="@{'/fileupload'}" th:object="${deals}" method="post" enctype="multipart/form-data">
+  <div class="form-group">
+    <label for="fileupload">File upload(csv)</label>
+    <input type="file" class="form-control" id="file" name="file" th:field="*{file}">
+  </div>
+  <button type="submit" class="btn btn-primary">Submit</button>
+</form> 
+  </div>
+</div>
+<div class="col-md-12">
+ <h1>All Invalid deals</h1><hr>
+ <a href="/FXdeals">Click to see all valid Deals</a>
+ <table id="example" class="display" cellspacing="0" width="100%">
+     <thead>
+         <tr>
+        <th>Deal ID</th>
+        <th>From</th>
+        <th>To </th>
+        <th>Time stamp</th>
+        <th>Amount</th>
+        <th>File name</th>
+         </tr>
+        </thead>
+ </table>
+  <table id="dealsTable" class="table table-striped">
+		<thead>
+		<tr>
+        <th>Deal ID</th>
+        <th>Ordering currency</th>
+        <th>To currency</th>
+        <th>Time stamp</th>
+        <th>Amount</th>
+        <th>File name</th>
+      </tr>
+		</thead>
+    </table>
+
+</div>
+ <script>
+	$(document).ready( function () {
+	
+		 var table = $('#example').DataTable({
+			 "ajax" : {
+		            "url" : "/FXdeals/invalidDeals",
+		            dataSrc : ''
+		        },
+		        "columns" : [ {
+		            "data" : "dealId"
+		        }, {
+		            "data" : "fromCurrencyISOCode"
+		        }, {
+		            "data" : "toCurrencyISOCode"
+		        }, {
+		            "data" : "timestamp"
+		        },{
+		            "data" : "amount"
+		        },{
+		            "data" : "fileName"
+		        }]
+		    });
+		});
+	</script>
+
+   </div>
+</body>
+</html>

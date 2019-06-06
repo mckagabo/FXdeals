@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+ <html xmlns="http://www.w3.org/1999/xhtml" 
+    xmlns:th="http://www.thymeleaf.org" 
+    xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<title>FX DEALS invalid DEALS</title>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+</head>
+<body>
+   <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+      <h1>File upload</h1>
+    <form action="" th:action="@{'/fileupload'}" th:object="${deals}" method="post" enctype="multipart/form-data">
+  <div class="form-group">
+    <label for="fileupload">File upload(csv)</label>
+    <input type="file" class="form-control" id="file" name="file" th:field="*{file}">
+  </div>
+  <button type="submit" class="btn btn-primary">Submit</button>
+</form> 
+  </div>
+</div>
+<div class="col-md-12">
+ <h1>All invalid deals</h1>
+ <a href="/FXdeals">Click to see all valid Deals</a>
+ <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th>Deal ID</th>
+        <th>Ordering currency</th>
+        <th>To currency</th>
+        <th>Time stamp</th>
+        <th>Amount</th>
+        <th>File name</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr th:each="valid : ${invalidDealz}">
+        <td th:text="${valid.dealId}"></td>
+        <td th:text="${valid.fromCurrencyISOCode}"></td>
+        <td th:text="${valid.toCurrencyISOCode}"></td>
+         <td th:text="${valid.timestamp}"></td>
+          <td th:text="${valid.amount}"></td>
+          <td th:text="${valid.fileName}"></td>
+      </tr>
+   
+    </tbody>
+  </table>
+</div>
+   
+   </div>
+</body>
+</html>
