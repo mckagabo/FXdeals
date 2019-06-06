@@ -71,7 +71,7 @@ public class FxDealsService {
 					deal.setAmount(row[4]);
 					deal.setFileName(fileName);
 					invalidDao.save(deal);
-			
+			         
 					message="Invalid deals inserted";
 				}else {
 					ValidDeals deal=new ValidDeals();
