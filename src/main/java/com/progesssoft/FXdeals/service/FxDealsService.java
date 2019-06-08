@@ -1,9 +1,18 @@
 package com.progesssoft.FXdeals.service;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+
+import javax.persistence.PersistenceContext;
 
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +27,7 @@ import com.progesssoft.FXdeals.model.InvalidDeals;
 import com.progesssoft.FXdeals.model.ValidDeals;
 
 @Service
+
 public class FxDealsService {
 	
 	@Autowired
@@ -51,6 +61,9 @@ public class FxDealsService {
 		
 	}*/
 	
+	
+	
+	
 	public String readDataFromCsvFile(MultipartFile file) {
 	  SimpleDateFormat sdf=new SimpleDateFormat("m/d/yyyy");
 	   String  message="";
@@ -60,17 +73,18 @@ public class FxDealsService {
 			InputStreamReader reader=new InputStreamReader(file.getInputStream());
 			CSVReader csvReader=new CSVReaderBuilder(reader).withSkipLines(1).build();
 			List<String[]> rows=csvReader.readAll();
+			
 			for(String[] row:rows) {
 				
 	 if(row[0].isEmpty()||isNotCurrency(row[1])||isNotCurrency(row[2])||isInvalidDate(row[3])||isString(row[4])) {
-					InvalidDeals deal=new InvalidDeals();
-					deal.setDealId(row[0]);
-					deal.setFromCurrencyISOCode(row[1]);
-					deal.setToCurrencyISOCode(row[2]);
-					deal.setTimestamp(row[3]);
-					deal.setAmount(row[4]);
-					deal.setFileName(fileName);
-					invalidDao.save(deal);
+					InvalidDeals ideal=new InvalidDeals();
+					ideal.setDealId(row[0]);
+					ideal.setFromCurrencyISOCode(row[1]);
+					ideal.setToCurrencyISOCode(row[2]);
+					ideal.setTimestamp(row[3]);
+					ideal.setAmount(row[4]);
+					ideal.setFileName(fileName);
+					invalidDao.save(ideal);
 			         
 					message="Invalid deals inserted";
 				}else {
@@ -82,11 +96,12 @@ public class FxDealsService {
 					deal.setAmount(Float.parseFloat(row[4]));
 					deal.setFileName(fileName);
 					validDao.save(deal);
-					message= "Valid deals successfully inserted";
+					message= "Valid deals successfully inserted++";
 				}
-				
-				
+	          
 			}
+			 
+	          // message= "Valid deals successfully inserted";
 			
 		} catch (Exception e) {
 		  System.out.println("Dore ibibazo:"+e.toString()+"and"+e.getMessage());
@@ -126,12 +141,12 @@ public class FxDealsService {
 	public boolean isNotCurrency(String currency) {
 		if(currency.length()==3) {
 			return false;
-		    }
-	    
-		if(currency=="") {
-			return true;
-		}
-	     return true;  
+		    }else if(currency.isEmpty()) {
+				return true;
+			}
+	    return true;
+		
+	  
 	}
 	public boolean isFileNameExist(MultipartFile file) {
 		boolean exist=false;

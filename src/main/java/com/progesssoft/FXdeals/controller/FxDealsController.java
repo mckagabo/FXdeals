@@ -38,12 +38,12 @@ public class FxDealsController {
 	   if(service.isFileNameExist(invalidDeals.getFile())) {
 		   redirectAttribute.addFlashAttribute("errormessage", "Sorry you cant upload from this file twice");
 	   }else if(service.fileExtension(invalidDeals.getFile()).equalsIgnoreCase("csv")) {
-		   redirectAttribute.addAttribute("infomessage", service.readDataFromCsvFile(invalidDeals.getFile()));
+		   redirectAttribute.addAttribute("infomessage", ""+service.readDataFromCsvFile(invalidDeals.getFile()));
 		  
 	   }else {
 		   redirectAttribute.addFlashAttribute("errormessage", "Sorry only csv format is allowed");
 	   }
-	
+	   redirectAttribute.addAttribute("infomessage", "Please wait while the system is reading the file!");
 	   return "redirect:/";
 	}
    
